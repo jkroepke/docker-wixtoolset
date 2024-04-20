@@ -42,4 +42,5 @@ RUN set -ex \
     && rm -f /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
     && dotnet tool install --global wix && wine wix.exe --version \
     && wix extension add -g WixToolset.Util.wixext \
+    && wix extension add -g WixToolset.Firewall.wixext \
     && wix extension add -g WixToolset.UI.wixext
