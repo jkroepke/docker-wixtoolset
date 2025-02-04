@@ -1,10 +1,10 @@
 FROM debian:12
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG WINE_VERSION=9.6~bookworm-1
-ARG WINE_MONO_VERSION=9.0.0
-ARG DOTNET_VERSION=8.0.104
-ARG DOTNET_DOWNLOAD_URL=https://download.visualstudio.microsoft.com/download/pr/2d0d0c17-cc24-4e9a-a101-0767d142c14f/cab1a83fbda1a56fdd82ffb7f4923120/dotnet-sdk-8.0.104-win-x86.exe
+ARG WINE_VERSION=10.0.0~bookworm-1
+ARG WINE_MONO_VERSION=9.4.0
+ARG DOTNET_VERSION=8.0.405
+ARG DOTNET_DOWNLOAD_URL=https://download.visualstudio.microsoft.com/download/pr/a7dd12dc-2172-4899-a490-27b38cfb9eb6/0d74d91bcb4d01e5179552fd4a746476/dotnet-sdk-8.0.405-win-x86.exe
 
 ENV WINEPATH="C:\\users\\wix\\.dotnet\\tools" \
     WINEPREFIX="/home/wix/.wine" \
