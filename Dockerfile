@@ -1,11 +1,11 @@
 FROM debian:12
 
 ARG DEBIAN_FRONTEND=noninteractive
+
 # renovate: deb=winehq-staging registry=https://dl.winehq.org/wine-builds/debian?components=main&binaryArch=i386&suite=bookworm
 ARG WINE_VERSION=10.0.0~bookworm-1
 ARG WINE_MONO_VERSION=9.4.0
-ARG DOTNET_VERSION=8.0.405
-ARG DOTNET_DOWNLOAD_URL=https://download.visualstudio.microsoft.com/download/pr/a7dd12dc-2172-4899-a490-27b38cfb9eb6/0d74d91bcb4d01e5179552fd4a746476/dotnet-sdk-8.0.405-win-x86.exe
+ARG DOTNET_VERSION=9.0.102
 
 ENV WINEPATH="C:\\users\\wix\\.dotnet\\tools" \
     WINEPREFIX="/home/wix/.wine" \
@@ -38,7 +38,7 @@ RUN set -ex \
     && curl -sSfLo /tmp/wine-mono-${WINE_MONO_VERSION}-x86.tar.xz https://dl.winehq.org/wine/wine-mono/${WINE_MONO_VERSION}/wine-mono-${WINE_MONO_VERSION}-x86.tar.xz  \
     && tar -xf /tmp/wine-mono-${WINE_MONO_VERSION}-x86.tar.xz -C /opt/wine/mono/ \
     && rm -f /tmp/wine-mono-${WINE_MONO_VERSION}-x86.tar.xz \
-    && curl -sSfLo /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe ${DOTNET_DOWNLOAD_URL}  \
+    && curl -sSfLo /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe  \
     && xvfb-run sh -c "wineboot --init && wine /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe /q /norestart" \
     && rm -f /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
     && dotnet tool install --global wix && wine wix.exe --version \
