@@ -1,7 +1,7 @@
 FROM debian:12
 
 ARG DEBIAN_FRONTEND=noninteractive
-# renovate: deb=winehq-staging registry=https://dl.winehq.org/wine-builds/debian/dists/bookworm/main/
+# renovate: deb=winehq-staging registry=https://dl.winehq.org/wine-builds/debian?components=main&binaryArch=i386&suite=bookworm
 ARG WINE_VERSION=10.0.0~bookworm-1
 ARG WINE_MONO_VERSION=9.4.0
 ARG DOTNET_VERSION=8.0.405
