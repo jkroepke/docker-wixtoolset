@@ -8,9 +8,6 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "(^|/).+\\.(py|yaml)$"
-      ],
       "matchStrings": [
         "\\s*#\\s?renovate: (?<datasource>.*?)=(?<depName>.*?)( registry=(?<registryUrls>.*?))?( versioning=(?<versioning>.*?))?\\s+[\\w+\\.\\-]+(?:[:=]|\\s+\\S+)\\s*[\\\"']?(?<currentValue>[\\w+\\.\\-]*)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\\\"']?"
       ],
