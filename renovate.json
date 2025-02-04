@@ -13,7 +13,7 @@
         "[\\t ]*(?:#|\/\/) ?renovate: (?<datasource>[^=]+)=(?<depName>\\S+)( registry=(?<registryUrls>\\S+))?( versioning=(?<versioning>\\S+))?[\\t ]*\\r?\\n.+?[:=][\\t ]*[\"']?(?<currentValue>[^@\\s\"']+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\"']?"
       ],
       "datasourceTemplate": "{{#if (equals datasource 'github')}}github-tags{{else}}{{{datasource}}}{{/if}}",
-      "versioningTemplate": "{{#if (equals datasource 'docker')}}docker{{else if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+      "versioningTemplate": "{{#if (equals datasource 'docker')}}docker{{else if (equals datasource 'deb'}}deb{{else if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
   ]
 }
