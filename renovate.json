@@ -10,7 +10,7 @@
       "customType": "regex",
       "fileMatch": ["Dockerfile"],
       "matchStrings": [
-        "\\s*#\\s?renovate: (?<datasource>.*?)=(?<depName>.*?)( registry=(?<registryUrls>.*?))?( versioning=(?<versioning>.*?))?\\s+[\\w+\\.\\-]+(?:[:=]|\\s+\\S+)\\s*[\\\"']?(?<currentValue>[\\w+\\.\\-]*)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\\\"']?"
+        "[\\t ]*# ?renovate: (?<datasource>.*?)=(?<depName>.*?)( registry=(?<registryUrls>[^ \\n]*?))?( versioning=(?<versioning>[^ \\n]*?))? *\\r?\\n[\\w+\\.\\-]+(?:[:=]|[\\t ]+\\S+)[\t ]*[\\\"']?(?<currentValue>[\\w+\\.\\-]*)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\\\"']?"
       ],
       "datasourceTemplate": "{{#if (equals datasource 'github')}}github-tags{{else}}{{{datasource}}}{{/if}}",
       "versioningTemplate": "{{#if (equals datasource 'docker')}}docker{{else if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
