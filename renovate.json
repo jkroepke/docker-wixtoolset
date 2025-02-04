@@ -8,7 +8,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["Dockerfile"]
+      "fileMatch": ["Dockerfile"],
       "matchStrings": [
         "\\s*#\\s?renovate: (?<datasource>.*?)=(?<depName>.*?)( registry=(?<registryUrls>.*?))?( versioning=(?<versioning>.*?))?\\s+[\\w+\\.\\-]+(?:[:=]|\\s+\\S+)\\s*[\\\"']?(?<currentValue>[\\w+\\.\\-]*)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\\\"']?"
       ],
