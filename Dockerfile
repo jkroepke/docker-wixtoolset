@@ -4,8 +4,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # renovate: deb=winehq-staging registry=https://dl.winehq.org/wine-builds/debian?components=main&binaryArch=i386&suite=bookworm
 ARG WINE_VERSION=10.0.0~bookworm-1
-ARG WINE_MONO_VERSION=9.4.0
-ARG DOTNET_VERSION=9.0.102
+ARG WINE_MONO_VERSION=10.0.0
+ARG DOTNET_VERSION=9.0.203
+ARG WIXTOOLSET_VERSION=5.0.2
 
 ENV WINEPATH="C:\\users\\wix\\.dotnet\\tools" \
     WINEPREFIX="/home/wix/.wine" \
@@ -41,7 +42,8 @@ RUN set -ex \
     && curl -sSfLo /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe  \
     && xvfb-run sh -c "wineboot --init && wine /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe /q /norestart" \
     && rm -f /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
-    && dotnet tool install --global wix && wine wix.exe --version \
-    && wix extension add -g WixToolset.Util.wixext \
-    && wix extension add -g WixToolset.Firewall.wixext \
-    && wix extension add -g WixToolset.UI.wixext
+    && dotnet tool install --global wix --version ${WIXTOOLSET_VERSION} \
+    && wine wix.exe --version \
+    && wix extension add -g WixToolset.Util.wixext/${WIXTOOLSET_VERSION} \
+    && wix extension add -g WixToolset.Firewall.wixext/${WIXTOOLSET_VERSION} \
+    && wix extension add -g WixToolset.UI.wixext/${WIXTOOLSET_VERSION}
