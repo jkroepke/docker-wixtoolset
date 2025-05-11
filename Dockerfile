@@ -21,7 +21,7 @@ RUN set -ex \
     && set -o allexport && . /etc/os-release && set +o allexport \
     && dpkg --add-architecture i386 \
     && apt-get update -qq  \
-    && apt-get install --no-install-recommends ca-certificates curl xauth xvfb xz-utils p7zip unzip -qqy \
+    && apt-get install --no-install-recommends ca-certificates curl xauth xvfb xz-utils p7zip -qqy \
     && curl -sSfLo /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
     && curl -sSfLo /etc/apt/sources.list.d/winehq.sources https://dl.winehq.org/wine-builds/debian/dists/$VERSION_CODENAME/winehq-$VERSION_CODENAME.sources \
     && apt-get update -qq && apt-get install --no-install-recommends winehq-stable=${WINE_VERSION} -qqy \
@@ -42,5 +42,13 @@ RUN set -ex \
 
 RUN curl -sSfLo /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.zip https://dotnetcli.azureedge.net/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x86.zip \
     && wineboot --init \
-    && mkdir ~/.wine/drive_c/SDK/ \
-    && unzip -d ~/.wine/drive_c/SDK/ /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.zip
+    && mkdir ~/.wine/drive_c/Program Files/dotnet \
+    && unzip -d ~/.wine/drive_c/Program Files/dotnet /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.zip
+
+RUN xvfb-run sh -c "wineboot --init && winetricks -q comctl32ocx comdlg32ocx && wine /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe /q /norestart" \
+    && rm -f /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
+    && dotnet tool install --global wix --version ${WIXTOOLSET_VERSION} \
+    && wine wix.exe --version \
+    && wix extension add -g WixToolset.Util.wixext/${WIXTOOLSET_VERSION} \
+    && wix extension add -g WixToolset.Firewall.wixext/${WIXTOOLSET_VERSION} \
+    && wix extension add -g WixToolset.UI.wixext/${WIXTOOLSET_VERSION}
