@@ -42,10 +42,10 @@ RUN set -ex \
 
 RUN curl -sSfLo /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.zip https://dotnetcli.azureedge.net/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x86.zip \
     && wineboot --init \
-    && mkdir ~/.wine/drive_c/Program Files/dotnet \
-    && unzip -d ~/.wine/drive_c/Program Files/dotnet /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.zip
+    && mkdir ~/.wine/drive_c/Program Files/dotnet2 \
+    && unzip -d ~/.wine/drive_c/Program Files/dotnet2 /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.zip
 
-RUN xvfb-run sh -c "wineboot --init && winetricks -q comctl32ocx comdlg32ocx && wine /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe /q /norestart" \
+RUN xvfb-run sh -c "wineboot --init && wine /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe /q /norestart" \
     && rm -f /tmp/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
     && dotnet tool install --global wix --version ${WIXTOOLSET_VERSION} \
     && wine wix.exe --version \
