@@ -36,8 +36,12 @@ RUN set -ex \
 
 USER wix
 
+WORKDIR /home/wix
+
 RUN set -ex \
     && wineboot --init \
+    && printf 'REGEDIT4\n[HKEY_CURRENT_USER\\Software\\Wine\\WineDbg]\n"ShowCrashDialog"=dword:00000000' > /home/wix/.wine/user.reg \
+    && wine regedit /home/wix/.wine/user.reg && rm /home/wix/.wine/user.reg \
     && curl -sSfLo /tmp/dotnet-sdk.exe https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
     && xvfb-run wine /tmp/dotnet-sdk.exe /q /norestart \
     && rm -rf /tmp/dotnet-sdk.exe \
