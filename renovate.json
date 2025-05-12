@@ -4,7 +4,16 @@
     "config:recommended",
     "helpers:pinGitHubActionDigestsToSemver"
   ],
-  "dependencyDashboardApproval": true,
+  "schedule": ["* 14-17 * * 5"],
+  "automerge": true,
+  "platformAutomerge": true,
+  "packageRules": [
+    {
+      "groupName": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "semanticCommitScope": "github-actions"
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
