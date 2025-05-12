@@ -15,5 +15,13 @@
       "datasourceTemplate": "{{#if (equals datasource 'github')}}github-tags{{else}}{{{datasource}}}{{/if}}",
       "versioningTemplate": "{{#if (equals datasource 'docker')}}docker{{else if (equals datasource 'deb')}}deb{{else if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
-  ]
+  ],
+  "customDatasources": {
+    "dotnet-sdk": {
+      "defaultRegistryUrlTemplate": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+      "transformTemplates": [
+        "{\"releases\": [$.\"releases-index\"[ $.\"support-phase\" = \"active\" ].{\"version\": $.\"latest-sdk\"}]}"
+      ]
+    }
+  }
 }
