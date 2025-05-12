@@ -11,7 +11,8 @@
     {
       "groupName": "GitHub Actions",
       "matchManagers": ["github-actions"],
-      "semanticCommitScope": "github-actions"
+      "semanticCommitScope": "github-actions",
+      "separateMajorMinor": false
     }
   ],
   "customManagers": [
