@@ -26,7 +26,7 @@ RUN set -ex \
     && apt-get install --no-install-recommends ca-certificates curl xauth xvfb xz-utils p7zip-full unzip -qqy \
     && curl -sSfLo /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
     && curl -sSfLo /etc/apt/sources.list.d/winehq.sources https://dl.winehq.org/wine-builds/debian/dists/$VERSION_CODENAME/winehq-$VERSION_CODENAME.sources \
-    && apt-get update -qq && apt-get install --no-install-recommends winehq-stable=${WINE_VERSION} -qqy \
+    && apt-get update -qq && apt-get install --no-install-recommends winetricks winehq-stable=${WINE_VERSION} -qqy \
     && useradd -m wix \
     && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
     && printf '#!/bin/sh\nexec wine dotnet $@' > /usr/local/bin/dotnet \
@@ -40,8 +40,7 @@ WORKDIR /home/wix
 
 RUN set -ex \
     && wineboot --init \
-    && printf 'REGEDIT4\n[HKEY_CURRENT_USER\\Software\\Wine\\WineDbg]\n"ShowCrashDialog"=dword:00000000' > /home/wix/.wine/user.reg \
-    && wine regedit /home/wix/.wine/user.reg && rm /home/wix/.wine/user.reg \
+    && winetricks nocrashdialog \
     && curl -sSfLo /tmp/dotnet-sdk.exe https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
     && xvfb-run wine /tmp/dotnet-sdk.exe /q /norestart \
     && rm -rf /tmp/dotnet-sdk.exe \
