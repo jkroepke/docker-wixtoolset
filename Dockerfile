@@ -4,6 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # renovate: deb=winehq-stable registry=https://dl.winehq.org/wine-builds/debian?components=main&binaryArch=i386&suite=bookworm
 ARG WINE_VERSION=10.0.0.0~bookworm-1
+# renovate: dotnet-sdk=sts
 ARG DOTNET_VERSION=9.0.203
 # Version 5.0.2 is the latest version of WiX Toolset that does not require Open Source Maintenance Fee.
 # https://github.com/wixtoolset/wix/blob/ffbfeb3c0b9cb8084bd366404c0cb06d42e8caaf/OSMFEULA.txt
@@ -27,6 +28,8 @@ RUN set -ex \
     && curl -sSfLo /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
     && curl -sSfLo /etc/apt/sources.list.d/winehq.sources https://dl.winehq.org/wine-builds/debian/dists/$VERSION_CODENAME/winehq-$VERSION_CODENAME.sources \
     && apt-get update -qq && apt-get install --no-install-recommends winehq-stable=${WINE_VERSION} -qqy \
+    && curl -sSfLo /usr/local/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
+    && chmod +x /usr/local/bin/winetricks \
     && useradd -m wix \
     && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
     && printf '#!/bin/sh\nexec wine dotnet $@' > /usr/local/bin/dotnet \
@@ -36,8 +39,11 @@ RUN set -ex \
 
 USER wix
 
+WORKDIR /home/wix
+
 RUN set -ex \
     && wineboot --init \
+    && winetricks nocrashdialog \
     && curl -sSfLo /tmp/dotnet-sdk.exe https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
     && xvfb-run wine /tmp/dotnet-sdk.exe /q /norestart \
     && rm -rf /tmp/dotnet-sdk.exe \
