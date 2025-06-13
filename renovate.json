@@ -1,33 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    "helpers:pinGitHubActionDigestsToSemver"
-  ],
-  "schedule": ["* 14-17 * * 5"],
-  "automerge": true,
-  "platformAutomerge": true,
-  "packageRules": [
-    {
-      "groupName": "GitHub Actions",
-      "matchManagers": ["github-actions"],
-      "semanticCommitScope": "github-actions",
-      "separateMajorMinor": false
-    }
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/Dockerfile/"
-      ],
-      "matchStrings": [
-        "[\\t ]*(?:#|//) ?renovate: (?<datasource>[^=]+)=(?<depName>\\S+)( registry=(?<registryUrl>\\S+))?( versioning=(?<versioning>\\S+))?[\\t ]*\\r?\\n.+?[:=][\\t ]*[\"']?(?<currentValue>[^@\\s\"'=]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\"']?"
-      ],
-      "datasourceTemplate": "{{#if (equals datasource 'github')}}github-tags{{else}}{{{datasource}}}{{/if}}",
-      "versioningTemplate": "{{#if (equals datasource 'docker')}}docker{{else if (equals datasource 'deb')}}deb{{else if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
-    }
-  ],
+  "extends": ["github>jkroepke/renovate-config:github-action"],
   "customDatasources": {
     "dotnet-sdk": {
       "defaultRegistryUrlTemplate": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
