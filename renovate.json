@@ -8,5 +8,18 @@
         "{\"releases\": [$.\"releases-index\"[ $.\"support-phase\" = \"active\" ].{\"version\": $.\"latest-sdk\"}]}"
       ]
     }
-  }
+  },
+ "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/README.md/"
+      ],
+      "matchStrings": [
+        ".NET SDK (?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "custom.dotnet-sdk",
+      "depNameTemplate": "dotnet-sdk"
+    }
+  ]
 }
