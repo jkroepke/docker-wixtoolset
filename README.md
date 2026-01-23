@@ -9,7 +9,7 @@
 ## About
 
 Docker image for building **Windows MSI installers** using the **WiX Toolset 5** on **Linux**.  
-It runs the official WiX CLI (`wix build`, `wix extension add`, etc.) under **Wine** with a preinstalled **.NET SDK 9**, so you can build MSI packages without needing Windows or Wine setup.
+It runs the official WiX CLI (`wix build`, `wix extension add`, etc.) under **Wine** with a preinstalled **.NET SDK 10.0.102 so you can build MSI packages without needing Windows or Wine setup.
 
 ## Features
 - Run `wix build` directly on Linux
