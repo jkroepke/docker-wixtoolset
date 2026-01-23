@@ -16,7 +16,7 @@
         "/README.md/"
       ],
       "matchStrings": [
-        ".NET SDK (?<currentValue>\\S+)"
+        "**.NET SDK (?<currentValue>\\S+)**"
       ],
       "datasourceTemplate": "custom.dotnet-sdk",
       "depNameTemplate": "dotnet-sdk"
