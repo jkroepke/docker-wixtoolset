@@ -2,7 +2,7 @@ FROM debian:13
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# renovate: deb=winehq-stable registry=https://dl.winehq.org/wine-builds/debian/dists/trixie/main/ versioning=debian
+# renovate: deb=winehq-stable registry=https://dl.winehq.org/wine-builds/debian/dists/trixie/main/ versioning=regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\.(?<build>\d+)~(?<compatibility>.*)-(?<revision>\d+)
 ARG WINE_VERSION=10.0.0.0~trixie-1
 # renovate: custom.dotnet-sdk=dotnet-sdk
 ARG DOTNET_VERSION=10.0.101
