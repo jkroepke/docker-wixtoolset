@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # renovate: deb=winehq-stable registry=https://dl.winehq.org/wine-builds/debian?components=main&binaryArch=i386&suite=trixie versioning=regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\.(?<build>\d+)~(?<compatibility>.*)-(?<revision>\d+)
 ARG WINE_VERSION=11.0.0.0~trixie-1
 # renovate: custom.dotnet-sdk=dotnet-sdk
-ARG DOTNET_VERSION=10.0.102
+ARG DOTNET_VERSION=10.0.103
 # Version 5.0.2 is the latest version of WiX Toolset that does not require Open Source Maintenance Fee.
 # https://github.com/wixtoolset/wix/blob/ffbfeb3c0b9cb8084bd366404c0cb06d42e8caaf/OSMFEULA.txt
 ARG WIXTOOLSET_VERSION=5.0.2
