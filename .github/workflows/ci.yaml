@@ -29,3 +29,10 @@ jobs:
       with:
         push: ${{ github.ref_name == 'main' }}
         tags: jkroepke/wixtoolset:latest
+
+    - name: Test local action
+      uses: ./
+      with:
+        run: |
+          echo "Testing WiX Toolset Docker Action"
+          wix --version

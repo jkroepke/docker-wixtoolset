@@ -1,0 +1,18 @@
+---
+name: "docker-wixtoolset"
+author: "Jan-Otto Kröpke"
+description: "A GitHub Action to run WiX Toolset in a Docker container."
+inputs:
+  run:
+    description: "The command to run inside the container, e.g. 'wix --version'."
+    required: true
+runs:
+  using: "docker"
+  image: "docker://jkroepke/wixtoolset:latest"
+  args:
+    - bash
+    - -c
+    - '${{ inputs.run }}'
+branding:
+  icon: "check-square"
+  color: "white"

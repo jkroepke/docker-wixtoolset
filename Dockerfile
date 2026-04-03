@@ -18,8 +18,6 @@ ENV WINEPATH="C:\\users\\wix\\.dotnet\\tools" \
     DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_GENERATE_ASPNET_CERTIFICATE=false
 
-ENTRYPOINT ["/usr/local/bin/wix"]
-
 RUN set -ex \
     && set -o allexport && . /etc/os-release && set +o allexport \
     && dpkg --add-architecture i386 \
