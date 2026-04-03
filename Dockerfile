@@ -53,5 +53,4 @@ RUN set -ex \
     && wix --version \
     && wix extension add -g WixToolset.Util.wixext/${WIXTOOLSET_VERSION} \
     && wix extension add -g WixToolset.Firewall.wixext/${WIXTOOLSET_VERSION} \
-    && wix extension add -g WixToolset.UI.wixext/${WIXTOOLSET_VERSION} \
-    && wix extension list
+    && wix extension add -g WixToolset.UI.wixext/${WIXTOOLSET_VERSION}
