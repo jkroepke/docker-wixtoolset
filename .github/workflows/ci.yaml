@@ -42,3 +42,4 @@ jobs:
         run: |
           echo "Testing WiX Toolset Docker Action"
           wix --version
+          wix extension list

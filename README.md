@@ -1,5 +1,5 @@
 [![CI](https://github.com/jkroepke/docker-wixtoolset/workflows/CI/badge.svg)](https://github.com/jkroepke/docker-wixtoolset/actions?query=workflow%3ACI)
-[![GitHub license](https://img.shields.io/github/license/jkroepke/docker-wixtoolset.svg?logo=github)](https://github.com/jkroepke/docker-wixtoolset/blob/master/LICENSE.txt)
+[![GitHub license](https://img.shields.io/github/license/jkroepke/docker-wixtoolset.svg?logo=github)](https://github.com/jkroepke/docker-wixtoolset/blob/master/LICENSE)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jkroepke/wixtoolset?logo=docker)](https://hub.docker.com/r/jkroepke/wixtoolset)
 
 # docker-wixtoolset
@@ -22,7 +22,57 @@ It runs the official WiX CLI (`wix build`, `wix extension add`, etc.) under **Wi
 - Fully isolated environment for CI/CD builds
 - No need for a Windows VM or manual configuration
 
-## Example usage
+## GitHub Action usage
+
+This repository also provides a Docker-based GitHub Action.
+
+### Prerequisites
+
+- Use a Linux runner (for example, `ubuntu-latest`)
+- Check out your repository so WiX source files are available in the workspace
+- Provide a command through the required `run` input
+
+### Basic workflow
+
+```yaml
+name: Build MSI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show WiX version
+        uses: jkroepke/docker-wixtoolset@main
+        with:
+          run: wix --version
+```
+
+### Build an MSI in GitHub Actions
+
+```yaml
+- name: Build installer
+  uses: jkroepke/docker-wixtoolset@main
+  with:
+    run: |
+      wix extension list
+      wix build installer/Product.wxs -o dist/Product.msi
+```
+
+### Inputs
+
+| Name  | Required | Description                                           | Example                 |
+|-------|----------|-------------------------------------------------------|-------------------------|
+| `run` | Yes      | Command executed inside the container (`bash -c ...`) | `wix build Product.wxs` |
+
+## Docker CLI usage
+
 Build an MSI directly from Linux:
 ```bash
 docker run --rm -v $(pwd):/src -w /src jkroepke/wixtoolset wix build Product.wxs
@@ -30,7 +80,7 @@ docker run --rm -v $(pwd):/src -w /src jkroepke/wixtoolset wix build Product.wxs
 
 ### List installed extensions:
 
-```
+```bash
 docker run --rm jkroepke/wixtoolset wix extension list
 ```
 
@@ -52,10 +102,6 @@ See WiX Toolset OSMF License and the [introduction post](https://github.com/wixt
 
 - latest
 
-## About
-
-Docker Container for creating MSI with wixtoolset under linux
-
 ## License
 
-This project is licensed under the [MIT License](LICENSE.txt).
+This project is licensed under the [MIT License](LICENSE).
