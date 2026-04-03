@@ -34,12 +34,12 @@ RUN set -ex \
     && printf '#!/bin/sh\nexec wine wix.exe $@' > /usr/local/bin/wix \
     && chmod +x /usr/local/bin/dotnet /usr/local/bin/wix \
     && ln -sf /usr/local/bin/wix /usr/local/bin/wix.exe \
-    && mkdir -p /home/wix/.local/share/fonts /home/wix/.fonts \
+    && mkdir -p /home/wix/.local/share/fonts /home/wix/.fonts /home/wix/.cache /home/wix/.config \
     && chown -R wix:wix /home/wix/
 
 USER wix
 
-ENV HOME="/home/wix/"
+ENV HOME="/home/wix/" XDG_CACHE_HOME="/home/wix/.cache" XDG_CONFIG_HOME="/home/wix/.config" XDG_DATA_HOME="/home/wix/.local/share"
 
 WORKDIR /home/wix
 
