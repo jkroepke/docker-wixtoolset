@@ -33,9 +33,13 @@ RUN set -ex \
     && printf '#!/bin/sh\nexec wine dotnet $@' > /usr/local/bin/dotnet \
     && printf '#!/bin/sh\nexec wine wix.exe $@' > /usr/local/bin/wix \
     && chmod +x /usr/local/bin/dotnet /usr/local/bin/wix \
-    && ln -sf /usr/local/bin/wix /usr/local/bin/wix.exe
+    && ln -sf /usr/local/bin/wix /usr/local/bin/wix.exe \
+    && mkdir -p /home/wix/.local/share/fonts /home/wix/.fonts \
+    && chown -R wix:wix /home/wix/
 
 USER wix
+
+ENV HOME="/home/wix/"
 
 WORKDIR /home/wix
 
