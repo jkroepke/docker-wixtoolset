@@ -50,7 +50,8 @@ RUN set -ex \
     && xvfb-run wine /tmp/dotnet-sdk.exe /q /norestart \
     && rm -rf /tmp/dotnet-sdk.exe \
     && dotnet tool install --global wix --version ${WIXTOOLSET_VERSION} \
-    && wine wix.exe --version \
+    && wix --version \
     && wix extension add -g WixToolset.Util.wixext/${WIXTOOLSET_VERSION} \
     && wix extension add -g WixToolset.Firewall.wixext/${WIXTOOLSET_VERSION} \
     && wix extension add -g WixToolset.UI.wixext/${WIXTOOLSET_VERSION} \
+    && wix extension list
