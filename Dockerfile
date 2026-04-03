@@ -18,8 +18,6 @@ ENV WINEPATH="C:\\users\\wix\\.dotnet\\tools" \
     DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_GENERATE_ASPNET_CERTIFICATE=false
 
-ENTRYPOINT ["/usr/local/bin/wix"]
-
 RUN set -ex \
     && set -o allexport && . /etc/os-release && set +o allexport \
     && dpkg --add-architecture i386 \
@@ -35,9 +33,13 @@ RUN set -ex \
     && printf '#!/bin/sh\nexec wine dotnet $@' > /usr/local/bin/dotnet \
     && printf '#!/bin/sh\nexec wine wix.exe $@' > /usr/local/bin/wix \
     && chmod +x /usr/local/bin/dotnet /usr/local/bin/wix \
-    && ln -sf /usr/local/bin/wix /usr/local/bin/wix.exe
+    && ln -sf /usr/local/bin/wix /usr/local/bin/wix.exe \
+    && mkdir -p /home/wix/.local/share/fonts /home/wix/.fonts /home/wix/.cache /home/wix/.config \
+    && chown -R wix:wix /home/wix/
 
 USER wix
+
+ENV HOME="/home/wix/" XDG_CACHE_HOME="/home/wix/.cache" XDG_CONFIG_HOME="/home/wix/.config" XDG_DATA_HOME="/home/wix/.local/share"
 
 WORKDIR /home/wix
 
@@ -48,7 +50,7 @@ RUN set -ex \
     && xvfb-run wine /tmp/dotnet-sdk.exe /q /norestart \
     && rm -rf /tmp/dotnet-sdk.exe \
     && dotnet tool install --global wix --version ${WIXTOOLSET_VERSION} \
-    && wine wix.exe --version \
+    && wix --version \
     && wix extension add -g WixToolset.Util.wixext/${WIXTOOLSET_VERSION} \
     && wix extension add -g WixToolset.Firewall.wixext/${WIXTOOLSET_VERSION} \
-    && wix extension add -g WixToolset.UI.wixext/${WIXTOOLSET_VERSION} \
+    && wix extension add -g WixToolset.UI.wixext/${WIXTOOLSET_VERSION}

@@ -29,3 +29,17 @@ jobs:
       with:
         push: ${{ github.ref_name == 'main' }}
         tags: jkroepke/wixtoolset:latest
+        load: ${{ github.ref_name != 'main' }}
+
+    - name: Check out repository
+      uses: actions/checkout@v4.3.1
+      with:
+        persist-credentials: 'false'
+
+    - name: Test local action
+      uses: ./
+      with:
+        run: |
+          set -x
+          echo "Testing WiX Toolset Docker Action"
+          wix --version
