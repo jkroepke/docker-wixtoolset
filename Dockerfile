@@ -1,4 +1,4 @@
-FROM debian:trixie-20260406
+FROM debian:trixie-20260421
 
 ARG DEBIAN_FRONTEND=noninteractive
 
