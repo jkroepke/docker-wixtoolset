@@ -6,6 +6,11 @@
 
 ⭐ Don't forget to star this repository! ⭐
 
+## go-msi
+
+> [!IMPORTANT]
+> Checkout [go-msi](https://github.com/jkroepke/go-msi) for building MSI installer packages on Windows/Linux!
+
 ## About
 
 Docker image for building **Windows MSI installers** using the **WiX Toolset 5** on **Linux**.
