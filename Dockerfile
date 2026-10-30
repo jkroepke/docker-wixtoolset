@@ -13,7 +13,7 @@ ARG WIXTOOLSET_VERSION=5.0.2
 ENV WINEPATH="C:\\users\\wix\\.dotnet\\tools" \
     WINEPREFIX="/home/wix/.wine" \
     XDG_RUNTIME_DIR="/tmp/" \
-    WINEARCH=win32 \
+    WINEARCH=win64 \
     WINEDEBUG=-all \
     DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_GENERATE_ASPNET_CERTIFICATE=false
@@ -30,8 +30,8 @@ RUN set -ex \
     && chmod +x /usr/local/bin/winetricks \
     && useradd -m wix \
     && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
-    && printf '#!/bin/sh\nexec wine dotnet $@' > /usr/local/bin/dotnet \
-    && printf '#!/bin/sh\nexec wine wix.exe $@' > /usr/local/bin/wix \
+    && printf '#!/bin/sh\nexec wine dotnet "$@"' > /usr/local/bin/dotnet \
+    && printf '#!/bin/sh\nexec wine wix.exe "$@"' > /usr/local/bin/wix \
     && chmod +x /usr/local/bin/dotnet /usr/local/bin/wix \
     && ln -sf /usr/local/bin/wix /usr/local/bin/wix.exe \
     && mkdir -p /home/wix/.local/share/fonts /home/wix/.fonts /home/wix/.cache /home/wix/.config \
@@ -46,7 +46,7 @@ WORKDIR /home/wix
 RUN set -ex \
     && wineboot --init \
     && winetricks nocrashdialog \
-    && curl -sSfLo /tmp/dotnet-sdk.exe https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x86.exe \
+    && curl -sSfLo /tmp/dotnet-sdk.exe https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_VERSION}/dotnet-sdk-${DOTNET_VERSION}-win-x64.exe \
     && xvfb-run wine /tmp/dotnet-sdk.exe /q /norestart \
     && rm -rf /tmp/dotnet-sdk.exe \
     && dotnet tool install --global wix --version ${WIXTOOLSET_VERSION} \

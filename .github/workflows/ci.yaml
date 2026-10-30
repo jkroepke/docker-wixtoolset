@@ -17,29 +17,43 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
-      if: github.ref_name == 'main'
-      with:
-        username: ${{ secrets.DOCKERHUB_USER }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
-      with:
-        push: ${{ github.ref_name == 'main' }}
-        tags: jkroepke/wixtoolset:latest
-        load: ${{ github.ref_name != 'main' }}
-
     - name: Check out repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: 'false'
 
+    - name: Build Docker image
+      uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+      with:
+        context: .
+        tags: jkroepke/wixtoolset:latest
+        load: true
+
     - name: Test local action
       uses: ./
       with:
         run: |
-          set -x
+          set -eux
           echo "Testing WiX Toolset Docker Action"
           wix --version
+          wix extension list -g
+          output_dir=$(mktemp -d)
+          wix build .github/tests/Product.wxs -arch x64 -o "$output_dir/Product.msi"
+          test -s "$output_dir/Product.msi"
+          wix build .github/tests/Product.wxs -arch x86 -o "$output_dir/Product-x86.msi"
+          test -s "$output_dir/Product-x86.msi"
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      with:
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Push tested Docker image
+      uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      with:
+        context: .
+        push: true
+        tags: jkroepke/wixtoolset:latest

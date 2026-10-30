@@ -1,0 +1,15 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Smoke Test" Manufacturer="docker-wixtoolset" Version="1.0.0"
+           UpgradeCode="F141D5BE-9B82-40AA-A8B0-1DAD2778AA95">
+    <StandardDirectory Id="ProgramFilesFolder">
+      <Directory Id="INSTALLFOLDER" Name="Smoke Test">
+        <Component Id="Readme">
+          <File Source="README.md" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
+    <Feature Id="Main">
+      <ComponentRef Id="Readme" />
+    </Feature>
+  </Package>
+</Wix>
