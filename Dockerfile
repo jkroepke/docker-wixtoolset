@@ -13,7 +13,7 @@ ARG WIXTOOLSET_VERSION=5.0.2
 ENV WINEPATH="C:\\users\\wix\\.dotnet\\tools" \
     WINEPREFIX="/home/wix/.wine" \
     XDG_RUNTIME_DIR="/tmp/" \
-    WINEARCH=win64 \
+    WINEARCH=wow64 \
     WINEDEBUG=-all \
     DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_GENERATE_ASPNET_CERTIFICATE=false
@@ -30,8 +30,8 @@ RUN set -ex \
     && chmod +x /usr/local/bin/winetricks \
     && useradd -m wix \
     && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
-    && printf '#!/bin/sh\nexec /opt/wine-stable/bin/wine64 dotnet "$@"' > /usr/local/bin/dotnet \
-    && printf '#!/bin/sh\nexec /opt/wine-stable/bin/wine64 wix.exe "$@"' > /usr/local/bin/wix \
+    && printf '#!/bin/sh\nexec /opt/wine-stable/lib/wine/x86_64-unix/wine dotnet "$@"' > /usr/local/bin/dotnet \
+    && printf '#!/bin/sh\nexec /opt/wine-stable/lib/wine/x86_64-unix/wine wix.exe "$@"' > /usr/local/bin/wix \
     && chmod +x /usr/local/bin/dotnet /usr/local/bin/wix \
     && ln -sf /usr/local/bin/wix /usr/local/bin/wix.exe \
     && mkdir -p /home/wix/.local/share/fonts /home/wix/.fonts /home/wix/.cache /home/wix/.config \
