@@ -30,8 +30,8 @@ RUN set -ex \
     && chmod +x /usr/local/bin/winetricks \
     && useradd -m wix \
     && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
-    && printf '#!/bin/sh\nexec wine dotnet "$@"' > /usr/local/bin/dotnet \
-    && printf '#!/bin/sh\nexec wine wix.exe "$@"' > /usr/local/bin/wix \
+    && printf '#!/bin/sh\nexec /opt/wine-stable/bin/wine64 dotnet "$@"' > /usr/local/bin/dotnet \
+    && printf '#!/bin/sh\nexec /opt/wine-stable/bin/wine64 wix.exe "$@"' > /usr/local/bin/wix \
     && chmod +x /usr/local/bin/dotnet /usr/local/bin/wix \
     && ln -sf /usr/local/bin/wix /usr/local/bin/wix.exe \
     && mkdir -p /home/wix/.local/share/fonts /home/wix/.fonts /home/wix/.cache /home/wix/.config \
