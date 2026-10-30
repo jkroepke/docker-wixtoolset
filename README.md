@@ -9,7 +9,7 @@
 ## go-msi
 
 > [!IMPORTANT]
-> Checkout [go-msi](https://github.com/jkroepke/go-msi) for building MSI installer packages on Windows/Linux!
+> Checkout [msi-builder](https://github.com/jkroepke/msi-builder) for building MSI installer packages on Windows/Linux!
 
 ## About
 
